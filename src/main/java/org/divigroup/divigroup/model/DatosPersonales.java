@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "datos_personales", schema = "divigroup")
+@Table(name = "datos_personales", schema = "proyectokotlin")
 @Getter
 @Setter
 @AllArgsConstructor

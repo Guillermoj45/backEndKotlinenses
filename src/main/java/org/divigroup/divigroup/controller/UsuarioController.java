@@ -18,4 +18,5 @@ public class UsuarioController {
     public Integer login(@PathVariable String username, @PathVariable String password) {
         return usuarioService.buscarUsuarioUserName(username);
     }
+
 }

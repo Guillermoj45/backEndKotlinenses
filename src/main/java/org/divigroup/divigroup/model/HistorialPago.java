@@ -5,7 +5,7 @@ import lombok.*;
 import org.divigroup.divigroup.model.enums.TipoPago;
 
 @Entity
-@Table(name = "historial_pago", schema = "divigroup")
+@Table(name = "historial_pago", schema = "proyectokotlin")
 @Getter
 @Setter
 @AllArgsConstructor

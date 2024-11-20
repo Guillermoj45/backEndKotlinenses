@@ -1,6 +1,5 @@
 package org.divigroup.divigroup.repository;
 
-
 import org.divigroup.divigroup.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +16,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     where u.username = :userName
     """)
     Optional<Integer> buscarNombre(String userName);
+
+    @Query("SELECT u FROM Usuario u WHERE u.username = :username AND u.password = :password")
+    List<Usuario> buscarUsuarios(String username, String password);
 }

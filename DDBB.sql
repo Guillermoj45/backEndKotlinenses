@@ -1,3 +1,9 @@
+
+
+CREATE SCHEMA proyectoKotlin;
+
+SET search_path TO proyectoKotlin;
+
 create table usuario
 (
     id        serial

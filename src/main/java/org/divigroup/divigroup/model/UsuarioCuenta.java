@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_cuenta", schema = "divigroup")
+@Table(name = "user_cuenta", schema = "proyectokotlin")
 @Getter
 @Setter
 @AllArgsConstructor

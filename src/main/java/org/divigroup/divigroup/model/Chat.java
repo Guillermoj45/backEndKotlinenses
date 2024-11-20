@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chat", schema = "divigroup")
+@Table(name = "chat", schema = "proyectokotlin")
 @Getter
 @Setter
 @AllArgsConstructor
