@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @NoArgsConstructor
@@ -75,8 +77,9 @@ public class CuentaService {
         if (cuenta == null || usuario == null){
             return null;
         }
+
         usuarioCuentaService.agregarUsuarioCuenta(cuenta, usuario);
-        List<Usuario> participantes = usuarioCuentaService.listaUsuarios(cuenta);
+        Set<Usuario> participantes = new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta));
 
         return new GrupoListaParticipantesDTO(cuenta, participantes);
     }
@@ -91,7 +94,8 @@ public class CuentaService {
         if (cuenta == null){
             return null;
         }
-        List<Usuario> participantes = usuarioCuentaService.listaUsuarios(cuenta);
+        Set<Usuario> participantes = new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta));
+
 
         return new GrupoListaParticipantesDTO(cuenta, participantes);
     }
@@ -109,7 +113,7 @@ public class CuentaService {
             return null;
         }
         usuarioCuentaService.eliminarUsuarioCuenta(cuenta, usuario);
-        List<Usuario> participantes = usuarioCuentaService.listaUsuarios(cuenta);
+        Set<Usuario> participantes = new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta));
 
         return new GrupoListaParticipantesDTO(cuenta, participantes);
     }

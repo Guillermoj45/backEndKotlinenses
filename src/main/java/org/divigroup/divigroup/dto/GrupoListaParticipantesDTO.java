@@ -6,6 +6,7 @@ import org.divigroup.divigroup.model.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ import java.util.List;
 @ToString
 public class GrupoListaParticipantesDTO {
     private Cuenta cuenta;
-    private List<Usuario> participantes;
+    private Set<Usuario> participantes;
 }

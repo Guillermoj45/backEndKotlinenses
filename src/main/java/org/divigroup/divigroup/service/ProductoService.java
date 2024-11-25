@@ -15,9 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Clase que se encarga de la logica de negocio de los productos
@@ -87,7 +85,8 @@ public class ProductoService {
      */
     public HashMap<String, Float> puestaEnCuentas (int idGrupo) {
         Cuenta cuenta = cuentaService.buscarCuentaId(idGrupo);
-        List<Usuario> participantes = cuentaService.listaParticipantes(idGrupo).getParticipantes();
+        Set<Usuario> participantes = new HashSet<>(cuentaService.listaParticipantes(idGrupo).getParticipantes());
+
         HashMap<String, List<SoloProductoDTO>> gastos = new HashMap<>();
 
         for (Usuario u : participantes){
