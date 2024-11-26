@@ -36,4 +36,7 @@ public class UsuarioService {
         return false;
     }
 
+    public Usuario registrarUsuario(Usuario newUsuario) {
+        return usuarioRepository.save(newUsuario);
+    }
 }
