@@ -7,6 +7,7 @@ import org.divigroup.divigroup.model.Producto;
 import org.divigroup.divigroup.model.Usuario;
 import org.springframework.web.service.annotation.GetExchange;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class SoloProductoDTO {
     Float precio;
     String imagen;
     Usuario usuario;
-    String fecha;
+    LocalDateTime fecha;
 
     public SoloProductoDTO(Producto producto){
         this.id = producto.getId();
@@ -30,7 +31,7 @@ public class SoloProductoDTO {
         this.precio = producto.getPrecio();
         this.imagen = producto.getImagen();
         this.usuario = producto.getUser();
-        this.fecha = producto.getFecha().format(DateTimeFormatter.ofPattern("HH:mm"));
+        this.fecha = producto.getFecha();
     }
 
     public static List<SoloProductoDTO> pasarALista(List<Producto> productos){

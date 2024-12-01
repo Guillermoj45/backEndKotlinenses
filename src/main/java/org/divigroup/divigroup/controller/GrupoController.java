@@ -9,6 +9,7 @@ import org.divigroup.divigroup.model.Usuario;
 import org.divigroup.divigroup.service.CuentaService;
 import org.divigroup.divigroup.service.ProductoService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,10 +52,21 @@ public class GrupoController {
         return cuentaService.listarCuentas(idUsuario);
     }
 
-    @PostMapping("gasto/nuevo/{idUsuario}")
-    public SoloProductoDTO agregarGasto(@PathVariable int idUsuario, @RequestBody AgregarGastoDTO dto){
+    // @PostMapping(value = "gasto/nuevo/{idUsuario}", consumes = "multipart/form-data", produces = "application/json")
+    // public SoloProductoDTO agregarGasto(
+    //         @PathVariable int idUsuario,
+    //         @RequestPart("dto") AgregarGastoDTO dto,
+    //         @RequestPart(value = "imagen", required = false) MultipartFile imagen,
+    //         @RequestPart(value = "factura", required = false) MultipartFile factura) {
+    //     dto.setIdUsuario(idUsuario);
+    //     return cuentaService.agregarGasto(dto, imagen, factura);
+    // }
+
+    @PostMapping(value = "gasto/nuevo/{idUsuario}", produces = "application/json")
+    public SoloProductoDTO agregarGasto(@PathVariable int idUsuario, @RequestBody AgregarGastoDTO dto) {
         dto.setIdUsuario(idUsuario);
-        return cuentaService.agregarGasto(dto);
+
+        return cuentaService.agregarGasto(dto, null, null);
     }
 
     @GetMapping("gasto/{idCuenta}")
