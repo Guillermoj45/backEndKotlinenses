@@ -9,5 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GrupoParticipanteDTO {
     private int idGrupo;
+    private int idParticipante;
     private int idUsuario;
 }

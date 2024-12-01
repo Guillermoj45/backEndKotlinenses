@@ -21,9 +21,14 @@ public class GrupoController {
     private final CuentaService cuentaService;
     private final ProductoService productoService;
 
-    @PostMapping("/nuevo")
-    public Cuenta crearCuenta(@CookieValue(value = "idUsuario") int idUsuario ,@RequestBody AgregarCuentaDTO cuenta){
+    @PostMapping(value = "nuevo/{idUsuario}", consumes = "application/json", produces = "application/json")
+    public CuentaDataDTO crearCuenta(@PathVariable int idUsuario, @RequestBody AgregarCuentaDTO cuenta){
         return cuentaService.crearCuenta(cuenta, idUsuario);
+    }
+
+    @GetMapping(value = "cuenta/{idCuenta}", produces = "application/json")
+    public CuentaDataDTO encontrarCuenta(@PathVariable int idCuenta) throws Exception {
+        return cuentaService.encontrarCuenta(idCuenta);
     }
 
     @PostMapping("/participantes/nuevo")
@@ -41,13 +46,13 @@ public class GrupoController {
         return cuentaService.eliminarUsuarioCuenta(dto);
     }
 
-    @GetMapping()
-    public List<Cuenta> listarCuentas(@CookieValue(value = "idUsuario") int idUsuario) {
+    @GetMapping("/{idUsuario}")
+    public List<CuentaDataDTO> listarCuentas(@PathVariable int idUsuario) {
         return cuentaService.listarCuentas(idUsuario);
     }
 
-    @PostMapping("gasto/nuevo")
-    public SoloProductoDTO agregarGasto(@CookieValue(value = "idUsuario") int idUsuario, @RequestBody AgregarGastoDTO dto){
+    @PostMapping("gasto/nuevo/{idUsuario}")
+    public SoloProductoDTO agregarGasto(@PathVariable int idUsuario, @RequestBody AgregarGastoDTO dto){
         dto.setIdUsuario(idUsuario);
         return cuentaService.agregarGasto(dto);
     }

@@ -40,7 +40,7 @@ public class CuentaService {
      * @param agregarCuentaDTO Cuenta que vamos a guardar
      * @return devuelve el objeto entero de nuevo
      */
-    public Cuenta crearCuenta(AgregarCuentaDTO agregarCuentaDTO, int idUsuario){
+    public CuentaDataDTO crearCuenta(AgregarCuentaDTO agregarCuentaDTO, int idUsuario){
         Usuario usuario = usuarioService.buscarUsuarioId(idUsuario);
         Cuenta cuentaNueva = new Cuenta(agregarCuentaDTO.getNombre(), agregarCuentaDTO.getDescripcion(), agregarCuentaDTO.getImagen(), agregarCuentaDTO.getImagenFondo());
 
@@ -57,7 +57,9 @@ public class CuentaService {
         }
 
         System.out.println("Cuenta creada: " + cuentaNueva);
-        return cuentaRepository.save(cuentaNueva);
+        Cuenta cuenta = cuentaRepository.save(cuentaNueva);
+
+        return new CuentaDataDTO(cuenta.getId(), cuenta.getNombre(), cuenta.getDescripcion(), cuenta.getImagen(), cuenta.getImagenFondo(), new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta)), 0.0F);
     }
 
     /**
@@ -67,7 +69,7 @@ public class CuentaService {
      */
     public GrupoListaParticipantesDTO agregarUsuarioCuenta(GrupoParticipanteDTO dto){
         Cuenta cuenta = cuentaRepository.findById(dto.getIdGrupo()).orElse(null);
-        Usuario usuario = usuarioService.buscarUsuarioId(dto.getIdUsuario());
+        Usuario usuario = usuarioService.buscarUsuarioId(dto.getIdParticipante());
         System.out.println("""
                 HOLAAAAAAAA
                 
@@ -107,7 +109,7 @@ public class CuentaService {
      */
     public GrupoListaParticipantesDTO eliminarUsuarioCuenta(GrupoParticipanteDTO dto) {
         Cuenta cuenta = cuentaRepository.findById(dto.getIdGrupo()).orElse(null);
-        Usuario usuario = usuarioService.buscarUsuarioId(dto.getIdUsuario());
+        Usuario usuario = usuarioService.buscarUsuarioId(dto.getIdParticipante());
 
         if (cuenta == null || usuario == null){
             return null;
@@ -123,9 +125,21 @@ public class CuentaService {
      * @param idUsuario id del usuario
      * @return lista de cuentas
      */
-    public List<Cuenta> listarCuentas(int idUsuario) {
+    public List<CuentaDataDTO> listarCuentas(int idUsuario) {
+        List<CuentaDataDTO> cuentas = new ArrayList<>();
         Usuario usuario = usuarioService.buscarUsuarioId(idUsuario);
-        return usuarioCuentaService.listaCuentas(usuario);
+        List<Cuenta> cuentas1 = usuarioCuentaService.listaCuentas(usuario);
+        for (Cuenta cuenta : cuentas1){
+            Set<Usuario> participantes = new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta));
+            List<SoloProductoDTO> productos = productoService.encontrarPorCuenta(cuenta.getId());
+            Float totalGastos = 0.0F;
+            for (SoloProductoDTO p : productos){
+                totalGastos += p.getPrecio();
+            }
+            cuentas.add(new CuentaDataDTO(cuenta.getId(), cuenta.getNombre(), cuenta.getDescripcion(), cuenta.getImagen(), cuenta.getImagenFondo(), participantes, totalGastos));
+        }
+
+        return cuentas;
     }
 
     /**
@@ -160,4 +174,17 @@ public class CuentaService {
     public Cuenta buscarCuentaId(int idCuenta){
         return cuentaRepository.findById(idCuenta).orElse(null);
     }
+
+    public CuentaDataDTO encontrarCuenta(int idCuenta) throws Exception {
+        Cuenta cuenta = cuentaRepository.findById(idCuenta).orElseThrow(() -> new Exception("Cuenta no encontrada"));
+
+        Set<Usuario> participantes = new HashSet<>(usuarioCuentaService.listaUsuarios(cuenta));
+        List<SoloProductoDTO> productos = productoService.encontrarPorCuenta(cuenta.getId());
+        Float totalGastos = 0.0F;
+        for (SoloProductoDTO p : productos){
+            totalGastos += p.getPrecio();
+        }
+        return new CuentaDataDTO(cuenta.getId(), cuenta.getNombre(), cuenta.getDescripcion(), cuenta.getImagen(), cuenta.getImagenFondo(), participantes, totalGastos);
+    }
+
 }
