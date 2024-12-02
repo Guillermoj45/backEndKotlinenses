@@ -22,16 +22,19 @@ public class GrupoController {
     private final CuentaService cuentaService;
     private final ProductoService productoService;
 
+    // todo: hecho
     @PostMapping(value = "nuevo/{idUsuario}", consumes = "application/json", produces = "application/json")
     public CuentaDataDTO crearCuenta(@PathVariable int idUsuario, @RequestBody AgregarCuentaDTO cuenta){
         return cuentaService.crearCuenta(cuenta, idUsuario);
     }
 
+    // todo: hecho
     @GetMapping(value = "cuenta/{idCuenta}", produces = "application/json")
     public CuentaDataDTO encontrarCuenta(@PathVariable int idCuenta) throws Exception {
         return cuentaService.encontrarCuenta(idCuenta);
     }
 
+    // todo: hecho
     @PostMapping("/participantes/nuevo")
     public GrupoListaParticipantesDTO agregarUsuarioCuenta(@RequestBody GrupoParticipanteDTO dto){
         return cuentaService.agregarUsuarioCuenta(dto);
@@ -42,11 +45,13 @@ public class GrupoController {
         return cuentaService.listaParticipantes(idCuenta);
     }
 
+    // todo: hecho
     @DeleteMapping("/participantes/eliminar")
     public GrupoListaParticipantesDTO eliminarUsuarioCuenta(@RequestBody GrupoParticipanteDTO dto){
         return cuentaService.eliminarUsuarioCuenta(dto);
     }
 
+    // todo: hecho
     @GetMapping("/{idUsuario}")
     public List<CuentaDataDTO> listarCuentas(@PathVariable int idUsuario) {
         return cuentaService.listarCuentas(idUsuario);
@@ -62,6 +67,7 @@ public class GrupoController {
     //     return cuentaService.agregarGasto(dto, imagen, factura);
     // }
 
+    // todo: hecho
     @PostMapping(value = "gasto/nuevo/{idUsuario}", produces = "application/json")
     public SoloProductoDTO agregarGasto(@PathVariable int idUsuario, @RequestBody AgregarGastoDTO dto) {
         dto.setIdUsuario(idUsuario);
@@ -69,6 +75,7 @@ public class GrupoController {
         return cuentaService.agregarGasto(dto, null, null);
     }
 
+    // todo: hecho
     @GetMapping("gasto/{idCuenta}")
     public List<SoloProductoDTO> listarGastos(@PathVariable int idCuenta){
         return productoService.encontrarPorCuenta(idCuenta);
