@@ -1,9 +1,11 @@
 package org.divigroup.divigroup.service;
 
 import lombok.NoArgsConstructor;
+import org.divigroup.divigroup.dto.AgregarUsuarioDTO;
 import org.divigroup.divigroup.dto.IdUsuarioDTO;
 import org.divigroup.divigroup.dto.UsuarioDTO;
 import org.divigroup.divigroup.model.Usuario;
+import org.divigroup.divigroup.model.enums.Rol;
 import org.divigroup.divigroup.model.enums.TipoPago;
 import org.divigroup.divigroup.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,7 @@ public class UsuarioService {
      * @return Usuario
      */
     public Integer buscarUsuarioUserName(String userName) {
-        Integer idUsuario = usuarioRepository.buscarNombre(userName).orElse(null);
-
-        if (idUsuario == null)
-        {
-            idUsuario = -1;
-        }
-
-        return idUsuario;
+        return usuarioRepository.buscarNombre(userName).orElse(-1);
     }
 
     /**
@@ -59,4 +54,15 @@ public class UsuarioService {
 
         return null;
     }
+public Usuario registrarUsuario(AgregarUsuarioDTO user) {
+    Usuario usuario = new Usuario();
+    usuario.setUsername(user.getUsername());
+    usuario.setEmail(user.getEmail());
+    usuario.setAvatar(user.getAvatar());
+    usuario.setTipoPago(TipoPago.valueOf(user.getTipoPago()));
+    usuario.setRol(Rol.USER);
+    usuario.setPassword(user.getPassword()); // Ensure password is set
+    return usuarioRepository.save(usuario);
+}
+
 }

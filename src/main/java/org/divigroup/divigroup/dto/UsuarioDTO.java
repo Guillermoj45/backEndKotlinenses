@@ -9,4 +9,8 @@ public class UsuarioDTO {
     String email;
     String avatar;
     String tipoPago;
+    String rol;
+    String password;
+
+
 }
