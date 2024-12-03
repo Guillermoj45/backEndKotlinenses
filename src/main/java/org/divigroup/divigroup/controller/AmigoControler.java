@@ -14,8 +14,8 @@ public class AmigoControler {
     @Autowired
     private AmigoService amigoService;
 
-    @GetMapping()
-    public List<Usuario> listarAmigos(@CookieValue(value = "idUsuario") int idUsuario){
+    @GetMapping("{idUsuario}")
+    public List<Usuario> listarAmigos(@PathVariable int idUsuario){
         return amigoService.amigosUsuario(idUsuario);
     }
 }

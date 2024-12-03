@@ -9,6 +9,7 @@ import org.divigroup.divigroup.model.Usuario;
 import org.divigroup.divigroup.service.CuentaService;
 import org.divigroup.divigroup.service.ProductoService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +22,19 @@ public class GrupoController {
     private final CuentaService cuentaService;
     private final ProductoService productoService;
 
-    @PostMapping("/nuevo")
-    public Cuenta crearCuenta(@CookieValue(value = "idUsuario") int idUsuario ,@RequestBody AgregarCuentaDTO cuenta){
+    // todo: hecho
+    @PostMapping(value = "nuevo/{idUsuario}", consumes = "application/json", produces = "application/json")
+    public CuentaDataDTO crearCuenta(@PathVariable int idUsuario, @RequestBody AgregarCuentaDTO cuenta){
         return cuentaService.crearCuenta(cuenta, idUsuario);
     }
 
+    // todo: hecho
+    @GetMapping(value = "cuenta/{idCuenta}", produces = "application/json")
+    public CuentaDataDTO encontrarCuenta(@PathVariable int idCuenta) throws Exception {
+        return cuentaService.encontrarCuenta(idCuenta);
+    }
+
+    // todo: hecho
     @PostMapping("/participantes/nuevo")
     public GrupoListaParticipantesDTO agregarUsuarioCuenta(@RequestBody GrupoParticipanteDTO dto){
         return cuentaService.agregarUsuarioCuenta(dto);
@@ -36,22 +45,37 @@ public class GrupoController {
         return cuentaService.listaParticipantes(idCuenta);
     }
 
+    // todo: hecho
     @DeleteMapping("/participantes/eliminar")
     public GrupoListaParticipantesDTO eliminarUsuarioCuenta(@RequestBody GrupoParticipanteDTO dto){
         return cuentaService.eliminarUsuarioCuenta(dto);
     }
 
-    @GetMapping()
-    public List<Cuenta> listarCuentas(@CookieValue(value = "idUsuario") int idUsuario) {
+    // todo: hecho
+    @GetMapping("/{idUsuario}")
+    public List<CuentaDataDTO> listarCuentas(@PathVariable int idUsuario) {
         return cuentaService.listarCuentas(idUsuario);
     }
 
-    @PostMapping("gasto/nuevo")
-    public SoloProductoDTO agregarGasto(@CookieValue(value = "idUsuario") int idUsuario, @RequestBody AgregarGastoDTO dto){
+    // @PostMapping(value = "gasto/nuevo/{idUsuario}", consumes = "multipart/form-data", produces = "application/json")
+    // public SoloProductoDTO agregarGasto(
+    //         @PathVariable int idUsuario,
+    //         @RequestPart("dto") AgregarGastoDTO dto,
+    //         @RequestPart(value = "imagen", required = false) MultipartFile imagen,
+    //         @RequestPart(value = "factura", required = false) MultipartFile factura) {
+    //     dto.setIdUsuario(idUsuario);
+    //     return cuentaService.agregarGasto(dto, imagen, factura);
+    // }
+
+    // todo: hecho
+    @PostMapping(value = "gasto/nuevo/{idUsuario}", produces = "application/json")
+    public SoloProductoDTO agregarGasto(@PathVariable int idUsuario, @RequestBody AgregarGastoDTO dto) {
         dto.setIdUsuario(idUsuario);
-        return cuentaService.agregarGasto(dto);
+
+        return cuentaService.agregarGasto(dto, null, null);
     }
 
+    // todo: hecho
     @GetMapping("gasto/{idCuenta}")
     public List<SoloProductoDTO> listarGastos(@PathVariable int idCuenta){
         return productoService.encontrarPorCuenta(idCuenta);

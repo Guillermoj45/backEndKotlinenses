@@ -2,7 +2,9 @@ package org.divigroup.divigroup.service;
 
 import lombok.NoArgsConstructor;
 import org.divigroup.divigroup.dto.IdUsuarioDTO;
+import org.divigroup.divigroup.dto.UsuarioDTO;
 import org.divigroup.divigroup.model.Usuario;
+import org.divigroup.divigroup.model.enums.TipoPago;
 import org.divigroup.divigroup.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,25 @@ public class UsuarioService {
         }
 
         return idUsuario;
+    }
+
+    /**
+     * Guardar un usuario
+     * @param user Usuario a guardar
+     * @return Usuario
+     */
+    public Usuario guardarUsuario(UsuarioDTO user) {
+        Usuario usuario = usuarioRepository.findById(user.getId()).orElse(null);
+
+        if (usuario != null)
+        {
+            usuario.setUsername(user.getUsername());
+            usuario.setEmail(user.getEmail());
+            usuario.setAvatar(user.getAvatar());
+            usuario.setTipoPago(TipoPago.valueOf(user.getTipoPago()));
+            return usuarioRepository.save(usuario);
+        }
+
+        return null;
     }
 }

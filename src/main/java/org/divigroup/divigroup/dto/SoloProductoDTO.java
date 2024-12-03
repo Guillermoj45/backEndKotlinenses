@@ -4,8 +4,10 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.divigroup.divigroup.model.Producto;
+import org.divigroup.divigroup.model.Usuario;
 import org.springframework.web.service.annotation.GetExchange;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,8 +21,8 @@ public class SoloProductoDTO {
     String descripcion;
     Float precio;
     String imagen;
-    String nombre_usuario;
-    String fecha;
+    Usuario usuario;
+    LocalDateTime fecha;
 
     public SoloProductoDTO(Producto producto){
         this.id = producto.getId();
@@ -28,8 +30,8 @@ public class SoloProductoDTO {
         this.descripcion = producto.getDescripcion();
         this.precio = producto.getPrecio();
         this.imagen = producto.getImagen();
-        this.nombre_usuario = producto.getUser().getUsername();
-        this.fecha = producto.getFecha().format(DateTimeFormatter.ofPattern("HH:mm"));
+        this.usuario = producto.getUser();
+        this.fecha = producto.getFecha();
     }
 
     public static List<SoloProductoDTO> pasarALista(List<Producto> productos){

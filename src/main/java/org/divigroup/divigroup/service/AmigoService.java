@@ -18,7 +18,7 @@ public class AmigoService {
 
     /**
      * Lista todos los amigos de un usuario
-     * @param usuario El usuario sobre el que queremos hacer las consultas
+     * @param idUsuario El usuario sobre el que queremos hacer las consultas
      * @return Lista de amigos
      */
     public List<Usuario> amigosUsuario (int idUsuario){
