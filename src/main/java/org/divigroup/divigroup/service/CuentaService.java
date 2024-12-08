@@ -163,6 +163,7 @@ public SoloProductoDTO agregarGasto(AgregarGastoDTO dto, MultipartFile imagen, M
     producto.setPrecio(productoDTO.getPrecio());
     producto.setFecha(LocalDateTime.now());
     producto.setCuenta(cuenta);
+    producto.setImagen(productoDTO.getImagen());
     producto.setUser(usuario);
     SoloProductoDTO soloProductoDTO = new SoloProductoDTO(productoService.crearProducto(producto, imagen, factura));
 
