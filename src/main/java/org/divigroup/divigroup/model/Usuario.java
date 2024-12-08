@@ -9,7 +9,7 @@ import org.divigroup.divigroup.model.enums.TipoPago;
 import org.hibernate.mapping.Set;
 
 @Entity
-@Table(name = "usuario", schema = "divigroup")
+@Table(name = "usuario", schema = "proyectokotlin")
 @Getter
 @Setter
 @AllArgsConstructor
